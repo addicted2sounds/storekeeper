@@ -4,6 +4,7 @@ class Product < ActiveRecord::Base
   validates :path, presence: true
 
   def self.import(url)
+    @url = url
     uri = URI(url)
     site = Site.find_by(url: uri.host)
     product = new(path: uri.path, site: site)

@@ -65,7 +65,7 @@ class ProductsController < ApplicationController
     @results = { success: [], errors: []}
     params[:list].split.each do |url|
       product = Product.import url
-      key = product.valid? ? :success : :errors
+      key = product.errors.none? ? :success : :errors
       @results[key] << product
     end
     flash[:notice] = "Imported #{@results[:success].count} url(s)"
