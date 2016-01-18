@@ -22,10 +22,14 @@ class FetchProductJob < ActiveJob::Base
     end
   end
 
-  def parse_options(site)
+  def parse_options(site, product)
     site.product_options.map do |option|
       begin
         value = page.find(option.selector_type.to_sym, option.selector).text
+        ProductProperty.create name: option.name,
+                               product_option: option,
+                               product: product,
+                               parsed_value: value
         [option.name, value]
       rescue Capybara::ElementNotFound
         [option.name, nil]
@@ -37,6 +41,8 @@ class FetchProductJob < ActiveJob::Base
     capybara_setup
     product = Product.find(product_id)
     visit product.url
-    parse_options(product.site)
+    settings = parse_options(product.site, product)
+    product.update_attribute :parsed, true
+    settings
   end
 end
