@@ -3,6 +3,12 @@ class Product < ActiveRecord::Base
   validates :site, presence: true
   validates :path, presence: true
 
+  attr_writer :url
+
+  def url
+    @url ||= "http://#{site.url}#{path}"
+  end
+
   def self.import(url)
     @url = url
     uri = URI(url)

@@ -20,11 +20,8 @@ class FetchProductJob < ActiveJob::Base
     end
   end
 
-  def perform(site_id, path)
-    capybara_setup
-    site = Site.find(site_id)
-    visit path
-    options = site.product_options.map do |option|
+  def parsed_options(site)
+    site.product_options.map do |option|
       begin
         value = page.find(option.selector_type.to_sym, option.selector).text
         [option.name, value]
@@ -32,8 +29,12 @@ class FetchProductJob < ActiveJob::Base
         [option.name, nil]
       end
     end.to_h.symbolize_keys
-    # options
-    # p page.body
-    # Do something later
+  end
+
+  def perform(product_id)
+    capybara_setup
+    product = Product.find(product_id)
+    visit product.url
+    parsed_options(product.site)
   end
 end
