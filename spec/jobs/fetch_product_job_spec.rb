@@ -2,18 +2,19 @@ require 'rails_helper'
 
 RSpec.describe FetchProductJob, type: :job do
   describe 'homedepot' do
-    let(:site) { create :site }
-    let(:path) { 'http://www.homedepot.com/p/Rachael-Ray-Oval-Platter-in-Orange-53065/203083063' }
+    let!(:site) { create :site }
+    let(:url) { 'http://www.homedepot.com/p/Rachael-Ray-Oval-Platter-in-Orange-53065/203083063' }
+    let(:product) { Product.import url }
     let(:body) do
       file = Rails.root.join 'spec', 'support', 'fixtures', 'homedepot.html'
       File.read file
     end
 
     before :each do
-      stub_request(:get, path).to_return(status: 200, body: body)
+      stub_request(:get, url).to_return(status: 200, body: body)
     end
 
-    subject { FetchProductJob.perform_now(site.id, path) }
+    subject { FetchProductJob.perform_now(product.id) }
     it 'extracts title correctly' do
       create :product_option,
              name: 'title', selector: '.product_title', site: site

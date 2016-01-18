@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160118102007) do
+ActiveRecord::Schema.define(version: 20160118160541) do
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -33,12 +33,24 @@ ActiveRecord::Schema.define(version: 20160118102007) do
     t.integer  "site_id"
     t.string   "name"
     t.string   "selector"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.integer  "selector_type"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "selector_type", default: 0
   end
 
   add_index "product_options", ["site_id"], name: "index_product_options_on_site_id"
+
+  create_table "product_properties", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "product_option_id"
+    t.string   "name"
+    t.string   "parsed_value"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "product_properties", ["product_id"], name: "index_product_properties_on_product_id"
+  add_index "product_properties", ["product_option_id"], name: "index_product_properties_on_product_option_id"
 
   create_table "products", force: :cascade do |t|
     t.integer  "site_id"

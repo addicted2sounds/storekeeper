@@ -16,4 +16,6 @@ table
 
 br
 
-= link_to 'New Product', new_product_path
+= link_to 'Import products to parse', new_product_path
+
+= render partial: 'pending', locals: { pending: @pending }

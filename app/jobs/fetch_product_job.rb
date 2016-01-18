@@ -1,3 +1,4 @@
+WebMock.allow_net_connect! unless Rails.env.test?
 class FetchProductJob < ActiveJob::Base
   queue_as :default
   include Capybara::DSL
@@ -10,6 +11,7 @@ class FetchProductJob < ActiveJob::Base
       end
       driver
     end
+    Capybara.app = 'ProductFetch'
   end
 
   def capybara_setup
