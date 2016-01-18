@@ -20,7 +20,7 @@ class FetchProductJob < ActiveJob::Base
     end
   end
 
-  def parsed_options(site)
+  def parse_options(site)
     site.product_options.map do |option|
       begin
         value = page.find(option.selector_type.to_sym, option.selector).text
@@ -35,6 +35,6 @@ class FetchProductJob < ActiveJob::Base
     capybara_setup
     product = Product.find(product_id)
     visit product.url
-    parsed_options(product.site)
+    parse_options(product.site)
   end
 end
