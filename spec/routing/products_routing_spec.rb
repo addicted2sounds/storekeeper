@@ -35,5 +35,8 @@ RSpec.describe ProductsController, type: :routing do
       expect(:delete => "/products/1").to route_to("products#destroy", :id => "1")
     end
 
+    it 'routes to #add_url' do
+      expect(post: 'products/add').to route_to 'products#add'
+    end
   end
 end
