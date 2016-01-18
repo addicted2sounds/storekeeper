@@ -1,8 +1,7 @@
 FactoryGirl.define do
   factory :product do
-    site nil
-path "MyString"
-parsed false
+    site
+    path "MyString"
+    parsed false
   end
-
 end
