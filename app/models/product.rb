@@ -9,8 +9,9 @@ class Product < ActiveRecord::Base
     product = new(path: uri.path, site: site)
     if site.nil?
       product.errors.add  :site, 'Site is not supported'
-      return false
+    else
+      product.save
     end
-    product if product.save
+    product
   end
 end

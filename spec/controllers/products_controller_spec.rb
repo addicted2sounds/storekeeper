@@ -20,6 +20,20 @@ require 'rails_helper'
 
 RSpec.describe ProductsController, type: :controller do
 
+  context 'authorized' do
+    let(:user) { create :user }
+    let(:url) { 'http://www.homedepot.com/p/Rachael-Ray-Oval-Platter-in-Orange-53065/203083063' }
+    let!(:site) { create :site, url: 'www.homedepot.com' }
+    before :each do
+      sign_in user
+    end
+    describe 'POST #add' do
+      it 'sets correct flash notice' do
+        post :add, list: url
+        expect(flash[:notice]).to eq 'Imported 1 url(s)'
+      end
+    end
+  end
   # This should return the minimal set of attributes required to create a valid
   # Product. As you add validations to Product, be sure to
   # adjust the attributes here as well.

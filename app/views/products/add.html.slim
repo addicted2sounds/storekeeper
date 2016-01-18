@@ -1,0 +1,5 @@
+p Failed import(s)
+- @results[:errors].each do |product|
+  ul.errors
+    - product.errors.full_messages.each do |err|
+      li = err

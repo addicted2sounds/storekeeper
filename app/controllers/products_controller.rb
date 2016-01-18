@@ -61,6 +61,16 @@ class ProductsController < ApplicationController
     end
   end
 
+  def add
+    @results = { success: [], errors: []}
+    params[:list].split.each do |url|
+      product = Product.import url
+      key = product.valid? ? :success : :errors
+      @results[key] << product
+    end
+    flash[:notice] = "Imported #{@results[:success].count} url(s)"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product
