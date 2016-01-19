@@ -1,9 +1,14 @@
 class Product < ActiveRecord::Base
   belongs_to :site
+  has_many :product_properties#, as: :properties
   validates :site, presence: true
   validates :path, presence: true
 
   attr_writer :url
+
+  def option(option)
+    product_properties.where(product_option: option).first
+  end
 
   def url
     @url ||= "http://#{site.url}#{path}"
