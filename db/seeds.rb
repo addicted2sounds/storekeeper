@@ -27,8 +27,7 @@ ProductOption.create([
     selector: '//td/div[contains(.,"Product Depth")]/following::td[1]/div'
   },
   {
-    site: site, name: 'weight', selector_type: :xpath,
-    selector: '//td/div[contains(.,"Product Weight")]/following::td[1]/div'
+    site: site, name: 'weight', selector: '[itemprop="weight"]'
   },
   # { site: site, name: 'original_price', selector: '.product_details.modelNo' },
   # { site: site, name: 'special_price', selector: '.product_details.modelNo' },

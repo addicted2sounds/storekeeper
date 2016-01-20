@@ -23,7 +23,7 @@ class FetchProductJob < ActiveJob::Base
   end
 
   def parse_option(option)
-    value = page.find(option.selector_type.to_sym, option.selector).native.text
+    value = page.find(option.selector_type.to_sym, option.selector).native.inner_html
     value.gsub!(/^\302\240|\302\240$/, '')
     value.strip
   end

@@ -74,8 +74,8 @@ RSpec.describe FetchProductJob, type: :job do
 
     it 'extracts weight correctly' do
       create :product_option,
-             selector: '//td/div[contains(.,"Product Weight")]/following::td[1]/div',
-             name: 'weight', site: site, selector_type: :xpath
+             selector: '[itemprop="weight"]',
+             name: 'weight', site: site
       is_expected.to include weight: '3.8 lb'
     end
 
