@@ -2,18 +2,19 @@ require 'rails_helper'
 
 RSpec.describe FetchProductJob, type: :job do
   describe 'homedepot' do
-    let(:site) { create :site }
-    let(:path) { 'http://www.homedepot.com/p/Rachael-Ray-Oval-Platter-in-Orange-53065/203083063' }
+    let!(:site) { create :site }
+    let(:url) { 'http://www.homedepot.com/p/Rachael-Ray-Oval-Platter-in-Orange-53065/203083063' }
+    let(:product) { Product.import url }
     let(:body) do
       file = Rails.root.join 'spec', 'support', 'fixtures', 'homedepot.html'
       File.read file
     end
 
     before :each do
-      stub_request(:get, path).to_return(status: 200, body: body)
+      stub_request(:get, url).to_return(status: 200, body: body)
     end
 
-    subject { FetchProductJob.perform_now(site.id, path) }
+    subject { FetchProductJob.perform_now(product.id) }
     it 'extracts title correctly' do
       create :product_option,
              name: 'title', selector: '.product_title', site: site
@@ -75,7 +76,7 @@ RSpec.describe FetchProductJob, type: :job do
       create :product_option,
              selector: '//td/div[contains(.,"Product Weight")]/following::td[1]/div',
              name: 'weight', site: site, selector_type: :xpath
-      is_expected.to include(weight: '3.8 lb')
+      is_expected.to include weight: '3.8 lb'
     end
 
     it 'sets nil if the property is not found' do

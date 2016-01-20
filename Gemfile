@@ -36,6 +36,9 @@ gem 'capybara-mechanize'
 gem 'webmock'
 gem 'slim-rails'
 gem 'devise'
+gem 'bootstrap-sass'
+gem 'bootstrap_form'
+gem 'daemons'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

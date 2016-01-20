@@ -1,3 +1,4 @@
+WebMock.allow_net_connect! unless Rails.env.test?
 class FetchProductJob < ActiveJob::Base
   queue_as :default
   include Capybara::DSL
@@ -10,6 +11,7 @@ class FetchProductJob < ActiveJob::Base
       end
       driver
     end
+    Capybara.app = 'ProductFetch'
   end
 
   def capybara_setup
@@ -20,20 +22,27 @@ class FetchProductJob < ActiveJob::Base
     end
   end
 
-  def perform(site_id, path)
-    capybara_setup
-    site = Site.find(site_id)
-    visit path
-    options = site.product_options.map do |option|
+  def parse_options(site, product)
+    site.product_options.map do |option|
       begin
-        value = page.find(option.selector_type.to_sym, option.selector).text
+        value = page.find(option.selector_type.to_sym, option.selector).native.text
+        value.gsub!(/^\302\240|\302\240$/, '').strip!
+        property = ProductProperty.find_or_create_by product_option: option,
+                                                     product: product
+        property.update name: option.name, parsed_value: value
         [option.name, value]
       rescue Capybara::ElementNotFound
         [option.name, nil]
       end
     end.to_h.symbolize_keys
-    # options
-    # p page.body
-    # Do something later
+  end
+
+  def perform(product_id)
+    capybara_setup
+    product = Product.find(product_id)
+    visit product.url
+    settings = parse_options(product.site, product)
+    product.update_attribute :parsed, true
+    settings
   end
 end

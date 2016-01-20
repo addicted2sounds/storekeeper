@@ -1,0 +1,17 @@
+h1 Listing products
+
+- @products.each do |site, products|
+  h4 = site.name
+  table.table
+    thead
+      - site.product_options.each do |option|
+        td = option.name.humanize
+    tbody
+      - products.each do |product|
+        tr
+          - site.product_options.each do |option|
+            td = product.option(option).parsed_value
+
+= link_to 'Import products to parse', new_product_path
+
+= render partial: 'pending', locals: { pending: @pending }

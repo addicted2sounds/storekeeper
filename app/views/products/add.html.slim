@@ -1,0 +1,5 @@
+h3 Failed import(s)
+- @results[:errors].each do |product|
+  ul.errors
+    - product.errors.messages.values.each do |err|
+      li = err[0]
