@@ -73,10 +73,23 @@ RSpec.describe FetchProductJob, type: :job do
     end
 
     it 'extracts weight correctly' do
-      create :product_option,
-             selector: '[itemprop="weight"]',
+      create :product_option, selector: '[itemprop="weight"]',
              name: 'weight', site: site
       is_expected.to include weight: '3.8 lb'
+    end
+
+    it 'extracts original price correctly' do
+      create :product_option,
+             selector: '"originalPrice":([\d.]+)',
+             name: 'original_price', site: site, selector_type: :regexp
+      is_expected.to include(original_price: '22.65')
+    end
+
+    it 'extracts special price correctly' do
+      create :product_option,
+             selector: '"specialPrice":([\d.]+)',
+             name: 'special_price', site: site, selector_type: :regexp
+      is_expected.to include(special_price: '22.65')
     end
 
     it 'sets nil if the property is not found' do

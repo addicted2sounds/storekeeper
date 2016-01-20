@@ -29,8 +29,14 @@ ProductOption.create([
   {
     site: site, name: 'weight', selector: '[itemprop="weight"]'
   },
-  # { site: site, name: 'original_price', selector: '.product_details.modelNo' },
-  # { site: site, name: 'special_price', selector: '.product_details.modelNo' },
+  {
+    site: site, name: 'original_price', selector_type: :regex,
+    selector: '"originalPrice":([\d.]+)'
+  },
+  {
+    site: site, name: 'special_price', selector_type: :regex,
+    selector: '"originalPrice":([\d.]+)'
+  },
   # { site: site, name: 'availability', selector: '.product_details.modelNo' },
   # { site: site, name: 'shipping_weight', selector: '.product_details.modelNo' },
   # { site: site, name: 'country_of_origin', selector: '.product_details.modelNo' },
