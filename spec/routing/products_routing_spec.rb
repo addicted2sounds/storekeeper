@@ -38,5 +38,9 @@ RSpec.describe ProductsController, type: :routing do
     it 'routes to #add_url' do
       expect(post: 'products/add').to route_to 'products#add'
     end
+
+    it 'routes to #parsed' do
+      expect(get: 'products/parsed').to route_to 'products#parsed'
+    end
   end
 end

@@ -5,9 +5,14 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.where(parsed: true)
-                  .group_by(&:site)
     @pending = Product.where(parsed: false)
+  end
+
+  def parsed
+    redirect_to action: :index unless params.has_key? :site_id
+    @site = Site.find params[:site_id]
+    @products = Product.where(parsed: true, site_id: params[:site_id])
+                  .page params[:page]
   end
 
   # GET /products/1
