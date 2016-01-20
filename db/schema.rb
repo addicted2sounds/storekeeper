@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160118160541) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
     t.integer  "attempts",   default: 0, null: false
@@ -27,7 +30,7 @@ ActiveRecord::Schema.define(version: 20160118160541) do
     t.datetime "updated_at"
   end
 
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "product_options", force: :cascade do |t|
     t.integer  "site_id"
@@ -38,7 +41,7 @@ ActiveRecord::Schema.define(version: 20160118160541) do
     t.integer  "selector_type", default: 0
   end
 
-  add_index "product_options", ["site_id"], name: "index_product_options_on_site_id"
+  add_index "product_options", ["site_id"], name: "index_product_options_on_site_id", using: :btree
 
   create_table "product_properties", force: :cascade do |t|
     t.integer  "product_id"
@@ -49,8 +52,8 @@ ActiveRecord::Schema.define(version: 20160118160541) do
     t.datetime "updated_at",        null: false
   end
 
-  add_index "product_properties", ["product_id"], name: "index_product_properties_on_product_id"
-  add_index "product_properties", ["product_option_id"], name: "index_product_properties_on_product_option_id"
+  add_index "product_properties", ["product_id"], name: "index_product_properties_on_product_id", using: :btree
+  add_index "product_properties", ["product_option_id"], name: "index_product_properties_on_product_option_id", using: :btree
 
   create_table "products", force: :cascade do |t|
     t.integer  "site_id"
@@ -60,7 +63,7 @@ ActiveRecord::Schema.define(version: 20160118160541) do
     t.datetime "updated_at",                 null: false
   end
 
-  add_index "products", ["site_id"], name: "index_products_on_site_id"
+  add_index "products", ["site_id"], name: "index_products_on_site_id", using: :btree
 
   create_table "sites", force: :cascade do |t|
     t.string   "name"
@@ -84,7 +87,11 @@ ActiveRecord::Schema.define(version: 20160118160541) do
     t.datetime "updated_at",                          null: false
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "product_options", "sites"
+  add_foreign_key "product_properties", "product_options"
+  add_foreign_key "product_properties", "products"
+  add_foreign_key "products", "sites"
 end

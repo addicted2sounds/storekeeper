@@ -3,8 +3,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'pg'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -38,6 +37,7 @@ gem 'slim-rails'
 gem 'devise'
 gem 'bootstrap-sass'
 gem 'bootstrap_form'
+gem 'puma'
 gem 'daemons'
 
 group :development, :test do
@@ -45,6 +45,7 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'dotenv-rails'
 end
 
 group :test do
@@ -61,3 +62,6 @@ group :development do
   gem 'rails_layout', github: 'RailsApps/rails_layout'
 end
 
+group :production do
+  gem 'rails_12factor'
+end
