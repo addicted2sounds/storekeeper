@@ -76,7 +76,7 @@ RSpec.describe FetchProductJob, type: :job do
       create :product_option,
              selector: '//td/div[contains(.,"Product Weight")]/following::td[1]/div',
              name: 'weight', site: site, selector_type: :xpath
-      is_expected.to include(weight: '3.8 lb')
+      is_expected.to include weight: '3.8 lb'
     end
 
     it 'sets nil if the property is not found' do

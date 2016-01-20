@@ -25,11 +25,11 @@ class FetchProductJob < ActiveJob::Base
   def parse_options(site, product)
     site.product_options.map do |option|
       begin
-        value = page.find(option.selector_type.to_sym, option.selector).text
-        ProductProperty.create name: option.name,
-                               product_option: option,
-                               product: product,
-                               parsed_value: value
+        value = page.find(option.selector_type.to_sym, option.selector).native.text
+        value.gsub!(/^\302\240|\302\240$/, '').strip!
+        property = ProductProperty.find_or_create_by product_option: option,
+                                                     product: product
+        property.update name: option.name, parsed_value: value
         [option.name, value]
       rescue Capybara::ElementNotFound
         [option.name, nil]
