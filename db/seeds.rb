@@ -37,6 +37,14 @@ ProductOption.create([
     site: site, name: 'special_price', selector_type: :regex,
     selector: '"originalPrice":([\d.]+)'
   },
+  {
+    site: site, name: 'rating', selector_type: :regex,
+    selector: '"averageRating":"(.+?)"'
+  },
+  {
+    site: site, name: 'upc', selector_type: :regex,
+    selector: '"upc":"(.+?)"'
+  },
   # { site: site, name: 'availability', selector: '.product_details.modelNo' },
   # { site: site, name: 'shipping_weight', selector: '.product_details.modelNo' },
   # { site: site, name: 'country_of_origin', selector: '.product_details.modelNo' },

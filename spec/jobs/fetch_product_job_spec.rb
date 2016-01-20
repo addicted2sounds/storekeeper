@@ -92,6 +92,20 @@ RSpec.describe FetchProductJob, type: :job do
       is_expected.to include(special_price: '22.65')
     end
 
+    it 'extracts rating correctly' do
+      create :product_option,
+             selector: '"averageRating":"(.+?)"',
+             name: 'rating', site: site, selector_type: :regexp
+      is_expected.to include(rating: '0.0')
+    end
+
+    it 'extracts upc correctly' do
+      create :product_option,
+             selector: '"upc":"(.+?)"',
+             name: 'upc', site: site, selector_type: :regexp
+      is_expected.to include(upc: '051153530654')
+    end
+
     it 'sets nil if the property is not found' do
       create :product_option,
              selector: '//td/div[contains(.,"Not existing")]/following::td[1]/div',
