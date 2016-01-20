@@ -29,8 +29,8 @@ RSpec.describe FetchProductJob, type: :job do
 
     it 'extracts model_num correctly' do
       create :product_option,
-             name: 'model_num', selector: '.product_details.modelNo', site: site
-      is_expected.to include(model_num: 'Model # 53065' )
+             name: 'model_num', selector: '[itemprop="model"]', site: site
+      is_expected.to include(model_num: '53065' )
     end
 
     it 'extracts brand correctly' do

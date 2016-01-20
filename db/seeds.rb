@@ -10,7 +10,7 @@ site = Site.create url: 'www.homedepot.com', name: 'Home Depot'
 ProductOption.create([
   { site: site, name: 'title', selector: '.product_title' },
   { site: site, name: 'price', selector: '[itemprop="price"]' },
-  { site: site, name: 'model_num', selector: '.product_details.modelNo' },
+  { site: site, name: 'model_num', selector: '[itemprop="model"]' },
   { site: site, name: 'brand', selector: '[itemprop="brand"]' },
   { site: site, name: 'description', selector: '[itemprop="description"]' },
   { site: site, name: 'specifications', selector: '#specsContainer' },
