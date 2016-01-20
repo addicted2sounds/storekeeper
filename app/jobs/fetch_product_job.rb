@@ -30,15 +30,11 @@ class FetchProductJob < ActiveJob::Base
 
   def parse_options(site, product)
     site.product_options.map do |option|
-      begin
-        value = parse_option(option)
-        property = ProductProperty.find_or_create_by product_option: option,
-                                                     product: product
-        property.update name: option.name, parsed_value: value
-        [option.name, value]
-      rescue Capybara::ElementNotFound
-        [option.name, nil]
-      end
+      value = parse_option(option) rescue nil
+      property = ProductProperty.find_or_create_by product_option: option,
+                                                   product: product
+      property.update name: option.name, parsed_value: value
+      [option.name, value]
     end.to_h.symbolize_keys
   end
 
