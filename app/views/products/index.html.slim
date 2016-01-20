@@ -12,6 +12,8 @@ h1 Listing products
           - site.product_options.each do |option|
             td = raw product.option(option).parsed_value
 
+/= paginate @products
+
 = link_to 'Import products to parse', new_product_path
 
 = render partial: 'pending', locals: { pending: @pending }

@@ -5,7 +5,8 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.where(parsed: true).group_by(&:site)
+    @products = Product.where(parsed: true)
+                  .group_by(&:site)
     @pending = Product.where(parsed: false)
   end
 
