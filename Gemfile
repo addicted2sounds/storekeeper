@@ -37,6 +37,7 @@ gem 'slim-rails'
 gem 'devise'
 gem 'bootstrap-sass'
 gem 'bootstrap_form'
+gem 'puma'
 gem 'daemons'
 
 group :development, :test do
@@ -61,3 +62,6 @@ group :development do
   gem 'rails_layout', github: 'RailsApps/rails_layout'
 end
 
+group :production do
+  gem 'rails_12factor'
+end
