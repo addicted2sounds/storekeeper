@@ -30,19 +30,19 @@ ProductOption.create([
     site: site, name: 'weight', selector: '[itemprop="weight"]'
   },
   {
-    site: site, name: 'original_price', selector_type: :regex,
+    site: site, name: 'original_price', selector_type: :regexp,
     selector: '"originalPrice":([\d.]+)'
   },
   {
-    site: site, name: 'special_price', selector_type: :regex,
+    site: site, name: 'special_price', selector_type: :regexp,
     selector: '"originalPrice":([\d.]+)'
   },
   {
-    site: site, name: 'rating', selector_type: :regex,
+    site: site, name: 'rating', selector_type: :regexp,
     selector: '"averageRating":"(.+?)"'
   },
   {
-    site: site, name: 'upc', selector_type: :regex,
+    site: site, name: 'upc', selector_type: :regexp,
     selector: '"upc":"(.+?)"'
   },
   # { site: site, name: 'availability', selector: '.product_details.modelNo' },
