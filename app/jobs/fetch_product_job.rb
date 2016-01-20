@@ -22,11 +22,16 @@ class FetchProductJob < ActiveJob::Base
     end
   end
 
+  def parse_option(option)
+    value = page.find(option.selector_type.to_sym, option.selector).native.text
+    value.gsub!(/^\302\240|\302\240$/, '')
+    value.strip
+  end
+
   def parse_options(site, product)
     site.product_options.map do |option|
       begin
-        value = page.find(option.selector_type.to_sym, option.selector).native.text
-        value.gsub!(/^\302\240|\302\240$/, '').strip!
+        value = parse_option(option)
         property = ProductProperty.find_or_create_by product_option: option,
                                                      product: product
         property.update name: option.name, parsed_value: value

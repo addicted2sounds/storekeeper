@@ -6,6 +6,8 @@ class Product < ActiveRecord::Base
 
   attr_writer :url
 
+  after_create -> (product) { FetchProductJob.perform_later(product)}
+
   def option(option)
     product_properties.where(product_option: option).first
   end
