@@ -38,6 +38,7 @@ gem 'devise'
 gem 'bootstrap-sass'
 gem 'bootstrap_form'
 gem 'puma'
+gem 'foreman'
 gem 'daemons'
 
 group :development, :test do
