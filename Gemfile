@@ -32,7 +32,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 gem 'delayed_job_active_record'
 gem 'capybara-mechanize'
-gem 'webmock'
 gem 'slim-rails'
 gem 'devise'
 gem 'bootstrap-sass'
@@ -51,6 +50,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'webmock', require: false
   gem 'database_cleaner'
   gem 'shoulda-matchers', '~> 3.0'
 end
