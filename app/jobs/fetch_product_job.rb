@@ -28,7 +28,7 @@ class FetchProductJob < ActiveJob::Base
     else
       value = page.find(option.selector_type.to_sym, option.selector).native.inner_html
     end
-    value.gsub!(/^\302\240|\302\240$/, '')
+    value.gsub!(/\302\240/, ' ')
     value.strip
   end
 

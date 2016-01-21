@@ -1,20 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe FetchProductJob, type: :job do
+  let(:product) { Product.import url }
+
+  before :each do
+    stub_request(:get, url).to_return(status: 200, body: body)
+  end
+
+  subject { FetchProductJob.perform_now(product.id) }
+
   describe 'homedepot' do
     let!(:site) { create :site }
     let(:url) { 'http://www.homedepot.com/p/Rachael-Ray-Oval-Platter-in-Orange-53065/203083063' }
-    let(:product) { Product.import url }
     let(:body) do
       file = Rails.root.join 'spec', 'support', 'fixtures', 'homedepot.html'
       File.read file
     end
 
-    before :each do
-      stub_request(:get, url).to_return(status: 200, body: body)
-    end
-
-    subject { FetchProductJob.perform_now(product.id) }
     it 'extracts title correctly' do
       create :product_option,
              name: 'title', selector: '.product_title', site: site
@@ -141,6 +143,61 @@ RSpec.describe FetchProductJob, type: :job do
              selector: '//td/div[contains(.,"Not existing")]/following::td[1]/div',
              name: 'nonexisting', site: site, selector_type: :xpath
       is_expected.to include nonexisting: nil
+    end
+  end
+
+  describe 'lowes' do
+    let!(:site) { create :site, url: 'www.lowes.com' }
+    let(:url) { 'http://www.lowes.com/pd_494086-74035-LWESCHATEAUEMP_1z0z33v__' }
+    let(:body) do
+      file = Rails.root.join 'spec', 'support', 'fixtures', 'lowes.html'
+      File.read file
+    end
+
+    subject { FetchProductJob.perform_now(product.id) }
+    it 'extracts title correctly' do
+      create :product_option,
+             name: 'title', selector: '.itemInfo h1', site: site
+      is_expected.to include(title: 'American Olean Mosaic Chateau '\
+      'Emperador Glazed Mixed Material (Stone and Glass) Mosaic Random Indoor/Outdoor'\
+      ' Wall Tile (Common: 12-in x 12-in; Actual: 11.75-in x 13-in)' )
+    end
+
+    it 'extracts price correctly' do
+      create :product_option,
+             name: 'price', selector: '.mystore-item-price', site: site
+      is_expected.to include price: nil
+    end
+
+    it 'extracts item_num correctly' do
+      create :product_option,
+             name: 'item_num', selector: '#ItemNumber', site: site
+      is_expected.to include item_num: '494086'
+    end
+
+    it 'extracts model_num correctly' do
+      create :product_option,
+             name: 'item_num', selector: '#ModelNumber', site: site
+      is_expected.to include item_num: 'LWESCHATEAUEMP'
+    end
+
+    it 'extracts rating correctly' do
+      create :product_option,
+             selector: '//*[@class="productRating"]/img/@alt',
+             name: 'rating', site: site, selector_type: :xpath
+      is_expected.to include rating: '4.84 / 5'
+    end
+
+    it 'extracts description correctly' do
+      create :product_option,
+             name: 'description', selector: '#description-tab', site: site
+      is_expected.to have_key :description
+    end
+
+    it 'extracts specifications correctly' do
+      create :product_option,
+             name: 'specifications', selector: '#specifications-tab', site: site
+      is_expected.to have_key :description
     end
   end
 end

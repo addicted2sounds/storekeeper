@@ -62,3 +62,16 @@ ProductOption.create([
     selector: '"upc":"(.+?)"'
   },
 ])
+site = Site.create url: 'www.lowes.com', name: 'Lowes'
+ProductOption.create([
+  { site: site, name: 'title', selector: '.itemInfo h1' },
+  { site: site, name: 'price', selector: '.mystore-item-price' },
+  { site: site, name: 'item_num', selector: '#ItemNumber' },
+  { site: site, name: 'model_num', selector: '#ModelNumber' },
+  {
+    site: site, name: 'rating', selector_type: :xpath,
+    selector: '//*[@class="productRating"]/img/@alt'
+  },
+  { site: site, name: 'description', selector: '#description-tab' },
+  { site: site, name: 'specifications', selector: '#specifications-tab' },
+])
