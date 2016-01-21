@@ -48,13 +48,20 @@ class FetchProductJob < ActiveJob::Base
     end.to_h.symbolize_keys
   end
 
-  def perform(product_id)
-    capybara_setup
-    product = Product.find(product_id)
+  def parse_product(product)
     visit product.url
     settings = parse_options(product.site, product)
     product.parsed = true
     product.save if product.changed?
     settings
+  rescue
+    product.update_attributes parsed: true, error: true
+    nil
+  end
+
+  def perform(product_id)
+    capybara_setup
+    product = Product.find(product_id)
+    parse_product product
   end
 end
