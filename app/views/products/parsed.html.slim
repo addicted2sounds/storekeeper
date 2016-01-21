@@ -8,7 +8,7 @@ table.table
     - @products.each do |product|
       tr
         - @site.product_options.each do |option|
-          td = raw product.option(option).parsed_value
+          td = product_option(product, option)
 
 = paginate @products
 
