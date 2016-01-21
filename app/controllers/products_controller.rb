@@ -11,8 +11,10 @@ class ProductsController < ApplicationController
   def parsed
     redirect_to action: :index unless params.has_key? :site_id
     @site = Site.find params[:site_id]
-    @products = Product.where(parsed: true, site_id: params[:site_id])
-                  .page params[:page]
+    search = { parsed: true, site_id: params[:site_id] }
+    @products = Product.search(params).page params[:page]
+    # @products = Product.where(parsed: true, site_id: params[:site_id])
+    #               .page params[:page]
   end
 
   # GET /products/1

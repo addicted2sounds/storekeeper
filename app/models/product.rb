@@ -8,6 +8,13 @@ class Product < ActiveRecord::Base
 
   after_create -> (product) { FetchProductJob.perform_later(product)}
 
+  def self.search(params)
+    where(parsed: true)
+    where(site_id: params[:site_id]) if params.has_key? :site_id
+    where('title like ?', "%#{params[:title]}%") unless params[:title].nil?
+    # products
+  end
+
   def option(option)
     product_properties.where(product_option: option).first
   end
