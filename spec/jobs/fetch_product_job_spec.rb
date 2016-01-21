@@ -99,6 +99,36 @@ RSpec.describe FetchProductJob, type: :job do
       is_expected.to include(rating: '0.0')
     end
 
+    it 'extracts item availability correctly' do
+      create :product_option,
+             selector: '"itemAvailability":({.+?})',
+             name: 'availability', site: site, selector_type: :regexp
+      is_expected.to include(availability: '{"buyable":true,"availableOnlineStore":true,'\
+      '"availableInStore":false,"inventoryStatus":true,"backorderable":false,'\
+      '"published":true,"discontinuedItem":false}')
+    end
+
+    it 'extracts shipping weight correctly' do
+      create :product_option,
+             selector: '"Dotcom Shipping Carton Gross Weight \(lb\)","value":"(.*?)"',
+             name: 'shipping_weight', site: site, selector_type: :regexp
+      is_expected.to include shipping_weight: '3.8'
+    end
+
+    it 'extracts country of origin correctly' do
+      create :product_option,
+             selector: '"COUNTRY OF ORIGIN","value":"(.*?)"',
+             name: 'country_of_origin', site: site, selector_type: :regexp
+      is_expected.to include country_of_origin: 'CN'
+    end
+
+    it 'extracts if can ship to home correctly' do
+      create :product_option,
+             selector: '"shipToHome":{"status":(.*?)}',
+             name: 'ship_to_home', site: site, selector_type: :regexp
+      is_expected.to include ship_to_home: 'true'
+    end
+
     it 'extracts upc correctly' do
       create :product_option,
              selector: '"upc":"(.+?)"',

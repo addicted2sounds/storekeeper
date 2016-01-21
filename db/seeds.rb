@@ -38,6 +38,22 @@ ProductOption.create([
     selector: '"originalPrice":([\d.]+)'
   },
   {
+    site: site, name: 'availability', selector_type: :regexp,
+    selector: '"itemAvailability":({.+?})'
+  },
+  {
+    site: site, name: 'shipping_weight', selector_type: :regexp,
+    selector: '"Dotcom Shipping Carton Gross Weight \(lb\)","value":"(.*?)"'
+  },
+  {
+    site: site, name: 'country_of_origin', selector_type: :regexp,
+    selector: '"COUNTRY OF ORIGIN","value":"(.*?)"'
+  },
+  {
+    site: site, name: 'ship_to_home', selector_type: :regexp,
+    selector: '"shipToHome":{"status":(.*?)}'
+  },
+  {
     site: site, name: 'rating', selector_type: :regexp,
     selector: '"averageRating":"(.+?)"'
   },
@@ -45,11 +61,4 @@ ProductOption.create([
     site: site, name: 'upc', selector_type: :regexp,
     selector: '"upc":"(.+?)"'
   },
-  # { site: site, name: 'availability', selector: '.product_details.modelNo' },
-  # { site: site, name: 'shipping_weight', selector: '.product_details.modelNo' },
-  # { site: site, name: 'country_of_origin', selector: '.product_details.modelNo' },
-  # { site: site, name: 'rating', selector: '.product_details.modelNo' },
-  # { site: site, name: 'ship_to_home', selector: '.product_details.modelNo' },
-  # { site: site, name: 'shipping_cost', selector: '.product_details.modelNo' },
-  # { site: site, name: 'upc', selector: '.product_details.modelNo' },
 ])
