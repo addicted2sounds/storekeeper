@@ -51,7 +51,7 @@ class FetchProductJob < ActiveJob::Base
     visit product.url
     settings = parse_options(product.site, product)
     product.parsed = true
-    product.save if product.changed?
+    product.save!
     settings
   rescue
     product.update_attributes parsed: true, error: true

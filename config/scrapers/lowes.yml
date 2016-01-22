@@ -2,7 +2,7 @@ name: Lowes
 url: www.lowes.com
 options:
   title:
-    selector: .product_title
+    selector: .itemInfo h1
   price:
     selector: .mystore-item-price
   item_num:
