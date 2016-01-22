@@ -2,7 +2,9 @@ class Product < ActiveRecord::Base
   belongs_to :site
   has_many :product_properties#, as: :properties
   validates :site, presence: true
-  validates :path, presence: true, uniqueness: { scope: :site_id }
+  validates :path, presence: true, uniqueness: {
+    scope: :site_id, message: 'already exists'
+  }
 
   attr_writer :url
 

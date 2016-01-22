@@ -6,4 +6,5 @@ h1 Listing products
 
 = link_to 'Import products to parse', new_product_path
 
-= render partial: 'pending', locals: { pending: @pending }
+= render partial: 'pending', locals: { products: @pending }
+= render partial: 'failed', locals: { products: @failed }

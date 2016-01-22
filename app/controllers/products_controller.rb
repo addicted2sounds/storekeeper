@@ -6,15 +6,13 @@ class ProductsController < ApplicationController
   # GET /products.json
   def index
     @pending = Product.where(parsed: false)
+    @failed = Product.where(error: true)
   end
 
   def parsed
     redirect_to action: :index unless params.has_key? :site_id
     @site = Site.find params[:site_id]
-    search = { parsed: true, site_id: params[:site_id] }
     @products = Product.search(params).page params[:page]
-    # @products = Product.where(parsed: true, site_id: params[:site_id])
-    #               .page params[:page]
   end
 
   # GET /products/1
