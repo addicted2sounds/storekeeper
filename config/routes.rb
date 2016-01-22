@@ -4,8 +4,10 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   resources :products do
-    get 'parsed', on: :collection
+    patch 'retry', on: :member
+    # get 'parsed', on: :collection
     collection do
+      get 'parsed'
       post :add
     end
   end

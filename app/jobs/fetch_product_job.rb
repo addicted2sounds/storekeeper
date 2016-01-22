@@ -7,7 +7,7 @@ class FetchProductJob < ActiveJob::Base
     Capybara.register_driver :mechanize do |app|
       driver = Capybara::Mechanize::Driver.new(app)
       driver.configure do |agent|
-        agent.user_agent_alias = 'Mac Safari'
+        agent.user_agent_alias = 'Mac Safar'
       end
       driver
     end
