@@ -1,0 +1,50 @@
+name: Home Depot
+url: www.homedepot.com
+options:
+  title:
+    selector: .product_title
+  price:
+    selector: [itemprop="price"]
+  model_num:
+    selector: [itemprop="model"]
+  brand:
+    selector: [itemprop="brand"]
+  description:
+    selector: [itemprop="description"]
+  specifications:
+    selector: "#specsContainer"
+  width:
+    selector: //td/div[contains(.,"Product Width")]/following::td[1]/div
+    selector_type: xpath
+  height:
+    selector: //td/div[contains(.,"Product Height")]/following::td[1]/div
+    selector_type: xpath
+  depth:
+    selector: //td/div[contains(.,"Product Depth")]/following::td[1]/div
+    selector_type: xpath
+  weight:
+    selector: [itemprop="weight"]
+  original_price:
+    selector: '"originalPrice":([\d.]+)'
+    selector_type: regexp
+  special_price:
+    selector: '"specialPrice":([\d.]+)'
+    selector_type: regexp
+  availability:
+    selector: '"itemAvailability":({.+?})'
+    selector_type: regexp
+  shipping_weight:
+    selector: '"Dotcom Shipping Carton Gross Weight \(lb\)","value":"(.*?)"'
+    selector_type: regexp
+  country_of_origin:
+    selector: '"COUNTRY OF ORIGIN","value":"(.*?)"'
+    selector_type: regexp
+  ship_to_home:
+    selector: '"shipToHome":{"status":(.*?)}'
+    selector_type: regexp
+  rating:
+    selector: '"averageRating":"(.+?)"'
+    selector_type: regexp
+  upc:
+    selector: '"upc":"(.+?)"'
+    selector_type: regexp

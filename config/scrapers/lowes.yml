@@ -1,0 +1,18 @@
+name: Lowes
+url: www.lowes.com
+options:
+  title:
+    selector: .product_title
+  price:
+    selector: .mystore-item-price
+  item_num:
+    selector: "#ItemNumber"
+  model_num:
+    selector: "#ModelNumber"
+  rating:
+    selector: //*[@class="productRating"]/img/@alt
+    selector_type: xpath
+  descriprion:
+    selector: "#description-tab"
+  specifications:
+    selector: "#specifications-tab"
