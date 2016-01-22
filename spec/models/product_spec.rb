@@ -24,6 +24,11 @@ RSpec.describe Product, type: :model do
       it 'returns product' do
         expect(Product.import(url)).to be_a Product
       end
+
+      it 'starts fetch job' do
+        expect(FetchProductJob).to receive(:perform_later)
+        Product.import(url)
+      end
     end
 
     context 'site is unknown' do

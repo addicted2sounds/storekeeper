@@ -1,5 +1,6 @@
-h3 Pending parsing
+- if products.any?
+  h3 Pending parsing
 
-ul.urls-list
-  - pending.each do |product|
-    li = product.url
+  ul.urls-list
+    - products.each do |product|
+      li = product.url

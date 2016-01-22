@@ -32,12 +32,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 gem 'delayed_job_active_record'
 gem 'capybara-mechanize'
-gem 'webmock'
 gem 'slim-rails'
 gem 'devise'
 gem 'bootstrap-sass'
 gem 'bootstrap_form'
+gem 'kaminari'
 gem 'puma'
+gem 'foreman'
 gem 'daemons'
 
 group :development, :test do
@@ -49,6 +50,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'webmock', require: false
   gem 'database_cleaner'
   gem 'shoulda-matchers', '~> 3.0'
 end
@@ -59,6 +61,7 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'better_errors'
   gem 'rails_layout', github: 'RailsApps/rails_layout'
 end
 

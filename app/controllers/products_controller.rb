@@ -1,11 +1,24 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [:show, :edit, :update, :destroy, :retry]
+  before_action :authenticate_user!
 
   # GET /products
   # GET /products.json
   def index
-    @products = Product.where(parsed: true).group_by(&:site)
     @pending = Product.where(parsed: false)
+    @failed = Product.where(error: true)
+  end
+
+  def parsed
+    redirect_to action: :index unless params.has_key? :site_id
+    @site = Site.find params[:site_id]
+    @products = Product.search(params).page params[:page]
+  end
+
+  def retry
+    @product.update_attributes! parsed: false, error: false
+    FetchProductJob.perform_later @product.id
+    redirect_to :back
   end
 
   # GET /products/1

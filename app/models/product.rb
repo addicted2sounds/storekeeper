@@ -2,9 +2,19 @@ class Product < ActiveRecord::Base
   belongs_to :site
   has_many :product_properties#, as: :properties
   validates :site, presence: true
-  validates :path, presence: true
+  validates :path, presence: true, uniqueness: {
+    scope: :site_id, message: 'already exists'
+  }
 
   attr_writer :url
+
+  after_create -> (product) { FetchProductJob.perform_later(product)}
+
+  def self.search(params)
+    where(parsed: true)
+    where(site_id: params[:site_id]) if params.has_key? :site_id
+    where('title like ?', "%#{params[:title]}%") unless params[:title].nil?
+  end
 
   def option(option)
     product_properties.where(product_option: option).first

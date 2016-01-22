@@ -1,0 +1,10 @@
+- if products.any?
+  h3 Failed
+
+  table.table
+    tbody
+      - products.each do |product|
+        tr
+          td.actions
+            = link_to 'Retry', retry_product_path(product), method: :patch
+          td = product.url
