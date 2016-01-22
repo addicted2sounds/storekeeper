@@ -13,6 +13,7 @@ class ProductsController < ApplicationController
     redirect_to action: :index unless params.has_key? :site_id
     @site = Site.find params[:site_id]
     @products = Product.search(params).page params[:page]
+    # render text: @products.inspect
   end
 
   def retry

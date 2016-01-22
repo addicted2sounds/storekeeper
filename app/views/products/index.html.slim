@@ -1,8 +1,6 @@
 h1 Listing products
 
-= bootstrap_form_tag url: parsed_products_path, layout: :inline, method: :get do |f|
-  = f.collection_select :site_id, Site.all, :id, :name, hide_label: true
-  = f.submit 'View parsed'
+= render 'search_form'
 
 = link_to 'Import products to parse', new_product_path
 

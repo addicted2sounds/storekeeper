@@ -4,6 +4,13 @@ RSpec.describe Product, type: :model do
   it { is_expected.to validate_presence_of :site }
   it { is_expected.to validate_presence_of :path }
 
+  describe '#search' do
+    let!(:product) { create :product }
+    it 'extracts by site_id' do
+      params = { site_id: product.site_id }
+      expect(Product.search(params)).to eq [product]
+    end
+  end
   describe '#import' do
     let!(:site) { create :site, url: 'www.homedepot.com' }
 

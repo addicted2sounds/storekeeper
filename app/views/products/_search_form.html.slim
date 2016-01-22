@@ -1,0 +1,6 @@
+= bootstrap_form_tag url: parsed_products_path, layout: :inline, method: :get do |f|
+  = f.collection_select :site_id, Site.all, :id, :name, hide_label: true,
+          wrapper: { class: 'col-sm-4' }
+  = f.text_field :title, placeholder: 'Title', hide_label: true
+  = f.submit 'View parsed'
+
