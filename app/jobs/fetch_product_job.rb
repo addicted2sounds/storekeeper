@@ -1,13 +1,12 @@
-# WebMock.allow_net_connect! unless Rails.env.test?
 class FetchProductJob < ActiveJob::Base
-  queue_as :default
+  queue_as :parser
   include Capybara::DSL
 
   def capybara_register_driver
     Capybara.register_driver :mechanize do |app|
       driver = Capybara::Mechanize::Driver.new(app)
       driver.configure do |agent|
-        agent.user_agent_alias = 'Mac Safar'
+        agent.user_agent_alias = 'Mac Safari'
       end
       driver
     end
