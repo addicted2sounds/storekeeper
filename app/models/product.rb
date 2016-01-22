@@ -13,7 +13,9 @@ class Product < ActiveRecord::Base
   def self.search(params)
     products = where(parsed: true, error: false)
     products = products.where(site_id: params[:site_id]) unless params[:site_id].nil?
-    products = products.where('title like ?', "%#{params[:title]}%") unless params[:title].nil?
+    unless params[:title].nil?
+      products = products.where('title like ?', "%#{params[:title]}%") unless params[:title].empty?
+    end
     products
   end
 
