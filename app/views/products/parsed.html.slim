@@ -9,6 +9,7 @@ table.table
   tbody
     - @products.each do |product|
       tr
+        td = product.id
         - @site.product_options.each do |option|
           td = product_option(product, option)
 
