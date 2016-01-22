@@ -1,0 +1,5 @@
+name: Lowes
+url: www.lowes.com
+options:
+  title:
+    selector: .product_title
