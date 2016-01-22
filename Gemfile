@@ -63,6 +63,11 @@ group :development do
   gem 'spring'
   gem 'better_errors'
   gem 'rails_layout', github: 'RailsApps/rails_layout'
+  gem 'capistrano'
+  gem 'capistrano3-puma'
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rvm'
 end
 
 group :production do
