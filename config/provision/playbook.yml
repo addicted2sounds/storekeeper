@@ -4,7 +4,7 @@
   sudo: yes
 
   vars:
-    ruby_version: '2.3.0'
+    ruby_version: 'ruby-2.3.0'
     user: 'deploy'
     home: '/home/{{ user }}'
     rbenv_root: '{{ home }}/.rbenv'
@@ -20,7 +20,7 @@
     - role: rvm_io.rvm1-ruby
       sudo: True
       rvm1_rubies:
-        - 'ruby-{{ ruby_version }}'
+        - '{{ ruby_version }}'
 
   tasks:
     - name: 'apt | update'
