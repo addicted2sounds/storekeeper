@@ -14,8 +14,11 @@
     application: '{{ home }}/applications/{{ name }}'
 
   pre_tasks:
+      - name: 'account | create group'
+        group: name=rvm state=present
+
       - name: 'account | create'
-        user: 'name={{ user }} groups="sudo" password={{ password }} shell=/bin/bash'
+        user: 'name={{ user }} groups="rvm" password={{ password }} shell=/bin/bash'
 
   roles:
     - role: rvm_io.rvm1-ruby
