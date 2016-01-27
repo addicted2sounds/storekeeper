@@ -20,12 +20,12 @@ set :deploy_to, '/home/deploy/applications/storekeeper'
 # set :log_level, :debug
 
 # Default value for :pty is false
-set :pty, true
+# set :pty, true
 
 # Default value for :linked_files is []
 set :linked_files, fetch(:linked_files, []).push('config/database.yml')#, 'config/secrets.yml')
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
-set :rvm_type, :system
+set :rvm_type, :user
 set :rvm_ruby_version, 'ruby-2.3.0'
 
 set :puma_rackup, -> { File.join(current_path, 'config.ru') }
@@ -43,6 +43,7 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, true
 set :puma_preload_app, false
 
+set :foreman_env,     '/home/deploy/.pam_environment'
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 

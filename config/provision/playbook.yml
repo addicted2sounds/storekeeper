@@ -20,45 +20,59 @@
       - name: 'account | create'
         user: 'name={{ user }} groups="rvm" password={{ password }} shell=/bin/bash'
 
+      - name: 'apt | update'
+        action: 'apt update_cache=yes'
+
+      - name: 'apt | install dependencies'
+        action: 'apt pkg={{ item }}'
+        with_items:
+          - 'libgmp-dev'
+          - 'libsqlite3-dev'
+          - 'sqlite3'
+          - 'autoconf'
+          - 'libgdbm-dev'
+          - 'libncurses5-dev'
+          - 'automake'
+          - 'bison'
+          - 'libffi-dev'
+          - 'build-essential'
+          - 'libssl-dev'
+          - 'libyaml-dev'
+          - 'libreadline6-dev'
+          - 'zlib1g-dev'
+          - 'libcurl4-openssl-dev'
+          - 'git'
+          - 'nginx'
+          - 'redis-server'
+          - 'postgresql'
+          - 'postgresql-contrib'
+          - 'libpq-dev'
+          - 'imagemagick'
+          - 'libmagickwand-dev'
+          - 'nodejs'
+          - 'htop'
+
+      - name: 'account | authorized keys'
+        authorized_key: user=deploy key="{{ lookup('file', 'keys/id_rsa.pub') }}"
+
+      - name: 'account | copy ssh private key'
+        copy: 'src=keys/id_rsa dest={{ home }}/.ssh/id_rsa owner={{ user }} group={{ user }} mode=0600'
+
+      - name: 'account | copy ssh public key'
+        copy: 'src=keys/id_rsa.pub dest={{ home }}/.ssh/id_rsa.pub owner={{ user }} group={{ user }} mode=0644'
+
   roles:
     - role: rvm_io.rvm1-ruby
       sudo: True
+      rvm1_install_flags: '--auto-dotfiles --user-install'
+      rvm1_install_path: '{{ home }}/.rvm'
+      rvm1_user: '{{ user }}'
+      rvm1_gpg_keys: '409B6B1796C275462A1703113804BB82D39DC0E3'
+      rvm1_autolib_mode: 1
       rvm1_rubies:
         - '{{ ruby_version }}'
 
   tasks:
-    - name: 'apt | update'
-      action: 'apt update_cache=yes'
-
-    - name: 'apt | install dependencies'
-      action: 'apt pkg={{ item }}'
-      with_items:
-        - 'build-essential'
-        - 'libssl-dev'
-        - 'libyaml-dev'
-        - 'libreadline6-dev'
-        - 'zlib1g-dev'
-        - 'libcurl4-openssl-dev'
-        - 'git'
-        - 'nginx'
-        - 'redis-server'
-        - 'postgresql'
-        - 'postgresql-contrib'
-        - 'libpq-dev'
-        - 'imagemagick'
-        - 'libmagickwand-dev'
-        - 'nodejs'
-        - 'htop'
-
-    - name: 'account | authorized keys'
-      authorized_key: user=deploy key="{{ lookup('file', 'keys/id_rsa.pub') }}"
-
-    - name: 'account | copy ssh private key'
-      copy: 'src=keys/id_rsa dest={{ home }}/.ssh/id_rsa owner={{ user }} group={{ user }} mode=0600'
-
-    - name: 'account | copy ssh public key'
-      copy: 'src=keys/id_rsa.pub dest={{ home }}/.ssh/id_rsa.pub owner={{ user }} group={{ user }} mode=0644'
-
     # Устанавливаем posgresql, создаём пользователя, копируем конфиги и создаём конечную базу данных
     - name: 'postgresql | check user'
       shell: 'psql -U postgres -c "\copyright"'
