@@ -1,3 +1,4 @@
+require 'capybara'
 class FetchProductJob < ActiveJob::Base
   queue_as :parser
   include Capybara::DSL
