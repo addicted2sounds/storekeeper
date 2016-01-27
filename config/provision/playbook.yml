@@ -4,13 +4,14 @@
   sudo: yes
 
   vars:
+#    - include: vars.yml
     ruby_version: 'ruby-2.3.0'
     user: 'deploy'
+    password: '123qweasd'
     home: '/home/{{ user }}'
     rbenv_root: '{{ home }}/.rbenv'
     name: 'storekeeper'
     application: '{{ home }}/applications/{{ name }}'
-    password: '123qweasd'
 
   pre_tasks:
       - name: 'account | create'
@@ -78,7 +79,7 @@
       when: 'postgres_login|failed'
 
     - name: 'postgresql | create database'
-      shell: 'createdb -U postgres -O postgres -E UTF8 -l en_US.UTF-8 {{ name }}_production'
+      shell: 'createdb -U postgres -O postgres -E UTF8 -l en_US.UTF-8 {{ name }}'
       when: 'postgres_login|failed'
 
     - name: 'rails | copy settings.yml'

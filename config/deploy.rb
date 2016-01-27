@@ -8,7 +8,7 @@ set :repo_url, 'git@github.com:addicted2sounds/storekeeper.git'
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/home/deploy/storekeeper'
+set :deploy_to, '/home/deploy/applications/storekeeper'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -23,10 +23,10 @@ set :deploy_to, '/home/deploy/storekeeper'
 set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
+set :linked_files, fetch(:linked_files, []).push('config/database.yml')#, 'config/secrets.yml')
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
-set :rvm_type, :user
-set :rvm_ruby_version, 'ruby-2.2.3'
+set :rvm_type, :system
+set :rvm_ruby_version, 'ruby-2.3.0'
 
 set :puma_rackup, -> { File.join(current_path, 'config.ru') }
 set :puma_state, "#{shared_path}/tmp/pids/puma.state"

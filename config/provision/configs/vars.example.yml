@@ -1,0 +1,6 @@
+ruby_version: 'ruby-2.3.0'
+user: 'deploy'
+password: '123qweasd'
+home: '/home/{{ user }}'
+name: 'storekeeper'
+application: '{{ home }}/applications/{{ name }}'
