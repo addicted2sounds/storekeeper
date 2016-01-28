@@ -27,7 +27,7 @@ set :pty, true
 set :linked_files, fetch(:linked_files, []).push('.env')#, 'config/secrets.yml')
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
 set :rvm_type, :system
-set :rvm_ruby_version, 'ruby-2.3.0'
+set :rvm_ruby_version, '2.3.0@storekeeper'
 
 set :puma_rackup, -> { File.join(current_path, 'config.ru') }
 set :puma_state, "#{shared_path}/tmp/pids/puma.state"
