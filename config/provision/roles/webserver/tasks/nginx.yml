@@ -1,0 +1,37 @@
+- name: Install nginx
+  apt: pkg=nginx state=latest
+#
+#- name: Remove the default app
+#  command: rm -rf /etc/nginx/sites-enabled/default
+#
+#- name: Remove the app's config, if exists
+#  command: rm -rf /etc/nginx/sites-enabled/default
+#
+#- name: Remove the app's symlink, if exists
+#  command: rm -rf /etc/nginx/sites-enabled/spree
+#
+#- name: Configure nginx for the app
+#  template: src=etc_nginx_sites-available_spree.conf.j2 dest=/etc/nginx/sites-available/spree group=www-data owner=www-data force=yes
+#
+#- name: Enable the app
+#  command: ln -s /etc/nginx/sites-available/spree /etc/nginx/sites-enabled/spree
+#
+#- name: Restart nginx
+#  action: service name=nginx state=restarted
+
+- name: 'nginx | check config'
+  command: 'test -f /etc/nginx/sites-enabled/{{ name }}.conf'
+  register: 'nginx_config_copied'
+  ignore_errors: yes
+
+- name: 'nginx | createdir'
+  shell: 'rm /etc/nginx/sites-enabled/default; mkdir -p etc/nginx/sites-enabled/'
+  when: 'nginx_config_copied|failed'
+
+- name: 'nginx | copy config'
+  template: 'src=configs/nginx.conf dest=/etc/nginx/sites-enabled/{{ name }}.conf owner=root group=root mode=0644'
+  when: 'nginx_config_copied|failed'
+
+- name: 'nginx | restart service'
+  service: name=nginx state=restarted
+  when: 'nginx_config_copied|failed'
