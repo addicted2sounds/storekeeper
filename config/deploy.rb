@@ -23,7 +23,7 @@ set :deploy_to, '/home/deploy/applications/storekeeper'
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, fetch(:linked_files, []).push('config/database.yml')#, 'config/secrets.yml')
+# set :linked_files, fetch(:linked_files, []).push('config/database.yml')#, 'config/secrets.yml')
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
 set :rvm_type, :user
 set :rvm_ruby_version, 'ruby-2.3.0'
