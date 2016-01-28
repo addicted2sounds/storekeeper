@@ -1,0 +1,60 @@
+---
+- name: Create group
+  group: >
+    name={{myapp_group}} gid={{myapp_gid}} state=present
+
+- name: Create user
+  user: >
+    name={{myapp_user}} uid={{myapp_uid}} group={{myapp_group}} 
+    home={{myapp_home}} createhome=yes shell=/bin/false state=present
+
+- name: Create folders
+  file: >
+    path={{item}} owner={{myapp_user}} group={{myapp_group}} 
+    mode=1700 state=directory
+  with_items:
+    - "{{myapp_home}}"
+    - "{{myapp_home}}/gems"
+    - "{{myapp_repo}}"
+
+###
+### Running stuff as {{myapp_user}} whenever permissions need to be preserved
+###
+
+- name: Clone application repository
+  git: >
+    repo={{myapp_repo_url}} dest={{myapp_repo}} 
+    version=master accept_hostkey=yes force=yes
+  sudo_user: "{{myapp_user}}"
+  # For private apps, copy the key file and specify "key_file" in the git task
+  # Use git-crypt, ansible-vault or anything that you want
+  # But don't commit secret files unencrypted, even in private repositories
+
+- name: Copy dotEnv for this server
+  copy: >
+    src=.env dest={{myapp_repo}}/.env owner={{myapp_user}} group={{myapp_group}} mode=0600
+
+- name: Symlink persistent folders
+  file: state=link force=yes src={{item.src}} dest={{item.dest}}
+  with_items:
+    - { src: "{{myapp_home}}/gems", dest: "{{myapp_repo}}/vendor/bundle" }
+
+- name: Bundle install in deployment mode
+  shell: >
+    bundle install --deployment --clean --without development test
+  args:
+    chdir: "{{myapp_repo}}"
+  sudo_user: "{{myapp_user}}"
+
+### At this point, you may want to run any custom tasks
+### (like db:migrate, assets:precompile, etc)
+### Just like the bundle install above
+
+- name: Create system service
+  shell: >
+    PATH=$(pwd):$PATH bundle exec foreman export -a myapp -u {{myapp_user}} upstart /etc/init/
+  args:
+    chdir: "{{myapp_repo}}"
+
+- name: Restart service and enable at boot
+  service: name=myapp state=restarted enabled=yes
