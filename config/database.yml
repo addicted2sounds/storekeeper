@@ -1,15 +1,15 @@
-default: &default
-  pool: 5
-  timeout: 5000
-
-development:
-  <<: *default
-  url: <%= ENV['DATABASE_URL'] %>_development
-
-test:
-  <<: *default
-  database: <%= ENV['DATABASE_URL'] %>_test
-
-production:
-  <<: *default
-  database: <%= ENV['DATABASE_URL'] %>
+#default: &default
+#  pool: 5
+#  timeout: 5000
+#
+#development:
+#  <<: *default
+#  url: <%= ENV['DATABASE_URL'] %>_development
+#
+#test:
+#  <<: *default
+#  database: <%= ENV['DATABASE_URL'] %>_test
+#
+#production:
+#  <<: *default
+#  database: <%= ENV['DATABASE_URL'] %>

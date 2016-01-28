@@ -1,0 +1,39 @@
+- name: Create deployment user
+  user: name={{ user }} groups=rvm append=yes shell=/bin/bash
+
+- authorized_key: user={{ user }} key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+- name: Create deployment directory
+  file: path={{ application }} owner={{ user }} group={{ user }} state=directory
+
+- name: Make shared directories
+  file: path={{ application }}/shared/{{item}} group=deploy owner=deploy state=directory
+  with_items:
+    - tmp
+    - log
+    - public
+    - bundle
+    - bin
+    - config
+    - config/puma
+  tags: shared
+
+- name: copy env appplication file
+  template: src=env.j2 dest={{application}}/shared/.env force=yes mode=755 owner={{ user }}
+
+- name: copy ssh private key
+  copy: src=keys/id_rsa dest={{ home }}/.ssh/id_rsa owner={{ user }} group={{ user }} mode=0600
+
+- name: copy ssh public key
+  copy: src=keys/id_rsa.pub dest={{ home }}/.ssh/id_rsa.pub owner={{ user }} group={{ user }} mode=0644
+
+- name: install required tools
+  action: 'apt pkg={{ item }}'
+  with_items:
+    - 'libgmp-dev' # strange rvm-based issue with gem installation
+    - 'git'
+    - 'libpq-dev'
+    - 'imagemagick'
+    - 'libmagickwand-dev'
+    - 'nodejs'
+    - 'htop'
