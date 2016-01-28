@@ -44,6 +44,7 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, true
 set :puma_preload_app, false
 
+before 'deploy', 'rvm:install_ruby'
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
