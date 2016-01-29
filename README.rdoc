@@ -1,28 +1,26 @@
-== README
+== Installation instructions
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Install ansible
+` brew install ansible
 
-Things you may want to cover:
+* Install rvm playbook
+` ansible-galaxy install rvm_io.rvm1-ruby `
 
-* Ruby version
+* Run provision
+add git private and public to config/provision/keys
+from app folder run
+` ansible-playbook -i{SERVER_IP}, config/provision/playbook.yml --private-key={KEY_PATH.pem} `
 
-* System dependencies
+* Deploy application
 
-* Configuration
+in config/deploy/production.rb mention your server for deploy
+` cap production deploy`
 
-* Database creation
+** Notes
+Not sure why now, but parsing job is not running by default
+In this case you need to start that manually:
+- ssh to your server
+- go to ~/applications/storekeeper/current
+- run ` bundle exec foreman run worker & `
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Don't hesistate to contact if any problems appear
