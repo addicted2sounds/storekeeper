@@ -3,6 +3,8 @@
 
 - authorized_key: user={{ user }} key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
+- lineinfile: "dest=/etc/sudoers state=present regexp='^{{ user }}' line='{{ user }} ALL=(ALL) NOPASSWD: ALL'"
+
 - name: Create deployment directory
   file: path={{ application }} owner={{ user }} group={{ user }} state=directory
 

@@ -70,9 +70,6 @@ GEM
     capistrano-rails (1.1.6)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
-    capistrano-rvm (0.1.2)
-      capistrano (~> 3.0)
-      sshkit (~> 1.2)
     capistrano3-foreman (0.2.5)
       capistrano (~> 3.0)
       sshkit (>= 1.2.0)
@@ -229,6 +226,9 @@ GEM
       rspec-mocks (~> 3.4.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
+    rvm1-capistrano3 (1.4.0)
+      capistrano (~> 3.0)
+      sshkit (>= 1.2)
     safe_yaml (1.0.4)
     sass (3.4.21)
     sass-rails (5.0.4)
@@ -302,7 +302,6 @@ DEPENDENCIES
   capistrano
   capistrano-bundler
   capistrano-rails
-  capistrano-rvm
   capistrano3-foreman
   capistrano3-puma
   capybara-mechanize
@@ -323,6 +322,7 @@ DEPENDENCIES
   rails_12factor
   rails_layout!
   rspec-rails
+  rvm1-capistrano3
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   shoulda-matchers (~> 3.0)

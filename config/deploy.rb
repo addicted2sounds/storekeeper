@@ -26,9 +26,7 @@ set :pty, true
 # set :linked_files, fetch(:linked_files, []).push('config/database.yml')#, 'config/secrets.yml')
 set :linked_files, fetch(:linked_files, []).push('.env')#, 'config/secrets.yml')
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
-set :rvm_type, :system
-set :rvm_ruby_version, '2.3.0@storekeeper'
-
+set :foreman_env,  '/home/deploy/applications/storekeeper/shared/.env'
 set :puma_rackup, -> { File.join(current_path, 'config.ru') }
 set :puma_state, "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid, "#{shared_path}/tmp/pids/puma.pid"
@@ -44,7 +42,6 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, true
 set :puma_preload_app, false
 
-before 'deploy', 'rvm:install_ruby'
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 

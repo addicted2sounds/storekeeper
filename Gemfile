@@ -67,7 +67,7 @@ group :development do
   gem 'capistrano3-puma'
   gem 'capistrano-rails', require: false
   gem 'capistrano-bundler', require: false
-  gem 'capistrano-rvm'
+  gem 'rvm1-capistrano3', require: false
   gem 'capistrano3-foreman'
 end
 

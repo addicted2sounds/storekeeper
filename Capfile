@@ -5,11 +5,11 @@ require 'capistrano/setup'
 require 'capistrano/deploy'
 
 require 'capistrano/bundler'
-require 'capistrano/rvm'
+require 'rvm1/capistrano3'
 require 'capistrano/rails/assets' # for asset handling add
 require 'capistrano/rails/migrations' # for running migrations
 require 'capistrano/puma'
-require 'capistrano-foreman'
+require 'capistrano/foreman'
 # Include tasks from other gems included in your Gemfile
 #
 # For documentation on these, see for example:
