@@ -4,13 +4,13 @@ options:
   title:
     selector: .product_title
   price:
-    selector: [itemprop="price"]
+    selector: '[itemprop="price"]'
   model_num:
-    selector: [itemprop="model"]
+    selector: '[itemprop="model"]'
   brand:
-    selector: [itemprop="brand"]
+    selector: '[itemprop="brand"]'
   description:
-    selector: [itemprop="description"]
+    selector: '[itemprop="description"]'
   specifications:
     selector: "#specsContainer"
   width:
