@@ -1,27 +1,10 @@
 require 'capybara/dsl'
+require 'mechanize_parser'
 
 class FetchProductJob < ActiveJob::Base
   queue_as :parser
   include Capybara::DSL
-
-  def capybara_register_driver
-    Capybara.register_driver :mechanize do |app|
-      driver = Capybara::Mechanize::Driver.new(app)
-      driver.configure do |agent|
-        agent.user_agent_alias = 'Mac Safari'
-      end
-      driver
-    end
-    Capybara.app = 'ProductFetch'
-  end
-
-  def capybara_setup
-    capybara_register_driver
-    Capybara.configure do |config|
-      config.run_server = false
-      config.default_driver = :mechanize
-    end
-  end
+  include MechanizeParser
 
   def parse_option(option)
     if option.selector_type.to_sym == :regexp
