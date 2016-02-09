@@ -9,10 +9,11 @@
       = f.input :password, as: :password
     - if devise_mapping.recoverable?
       = link_to "Forgot password?", new_password_path(resource_name), class: 'right'
-    = f.button :submit, 'Sign in', :class => 'pull-right'
-    = link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2)
+    = f.button :submit, 'Sign in'
     - if devise_mapping.rememberable?
       .checkbox[style="width:150px"]
         label
           = f.check_box :remember_me
           |  Remember me 
+  = button_to 'Google', user_omniauth_authorize_path(:google_oauth2),
+          class: 'btn btn-google-plus col-xs-12'
