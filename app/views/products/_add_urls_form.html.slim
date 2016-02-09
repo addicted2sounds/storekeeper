@@ -1,3 +1,3 @@
-= bootstrap_form_tag url: add_products_path do |f|
-  = f.text_area :list, hide_label: true
-  .actions = f.submit
+= simple_form_for :import, url: add_products_path do |f|
+  = f.input :list, as: :text, label: false
+  .actions = f.button :submit, 'Save'

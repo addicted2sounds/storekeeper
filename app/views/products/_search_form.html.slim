@@ -1,6 +1,9 @@
-= bootstrap_form_tag url: parsed_products_path, layout: :inline, method: :get do |f|
-  = f.collection_select :site_id, Site.all, :id, :name, hide_label: true,
-          wrapper: { class: 'col-sm-4' }
-  = f.text_field :title, placeholder: 'Title', hide_label: true
-  = f.submit 'View parsed'
-
+= form_tag parsed_products_path, method: :get, class: 'form-inline' do |f|
+  .form-group
+    = label_tag 'Site', nil, class: 'sr-only'
+    = select_tag :site_id, options_from_collection_for_select(Site.all,
+            'id', 'name', params[:site_id]), class: 'form-control'
+  .form-group
+    = label_tag 'Title', nil, class: 'sr-only'
+    = text_field_tag :title, params[:title], class: 'form-control'
+  = submit_tag 'Search', class: 'btn btn-default'
