@@ -34,6 +34,8 @@ gem 'delayed_job_active_record'
 gem 'capybara-mechanize'
 gem 'slim-rails'
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'kaminari'
@@ -69,6 +71,7 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'rvm1-capistrano3', require: false
   gem 'capistrano3-foreman'
+  gem 'html2slim'
 end
 
 group :production do
